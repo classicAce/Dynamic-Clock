@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Dynamic Clock</title>
+</head>
+<body>
+    <div class="container">
+        <div id="time" class="time"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-size: cover;
+    transition: background 1s ease;
+    font-family: 'Arial', sans-serif;
+    color: blue;
+}
+
+.container {
+    text-align: center;
+}
+
+.time {
+    font-size: 3em;
+}
+
+
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    const timeString = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    document.getElementById('time').innerText = timeString;
+
+    // Change background dynamically based on the time of day
+    const body = document.body;
+    const currentHour = now.getHours();
+    let background;
+
+    if (currentHour >= 5 && currentHour < 12) {
+        // Morning
+        background = 'url("morning.jpg")';
+    } else if (currentHour >= 12 && currentHour < 18) {
+        // Afternoon
+        background = 'url("afternoon.jpg")';
+    } else {
+        // Evening/Night
+        background = 'url("night.jpg")';
+    }
+
+    body.style.backgroundImage = background;
+
+    // Update every second
+    setTimeout(updateClock, 1000);
+}
+
+// Initial call to start the clock
+updateClock();
+
